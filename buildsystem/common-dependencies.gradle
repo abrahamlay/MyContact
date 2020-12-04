@@ -1,0 +1,39 @@
+apply from: "../buildsystem/common-config.gradle"
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation kotlinStdLib
+
+    //androidx
+    implementation support.appcompat
+    implementation support.constraint
+    implementation support.recyclerview
+    implementation support.core
+    implementation support.design
+
+    //network
+    implementation libs.retrofit
+    implementation libs.okhttp
+    implementation libs.gson
+
+    //rxjava
+    implementation libs.rxjava
+
+    //image processor
+    implementation libs.glide
+
+    //dependency injection
+    implementation support.koin
+    implementation support.koinScope
+    implementation support.koinViewmodel
+
+    //navigation
+    implementation support.navigationUi
+    implementation support.navigationFragment
+    implementation support.lifecycleVMSavedState
+    implementation support.coroutinesCore
+    implementation support.core
+
+    testImplementation test.jUnit
+    androidTestImplementation test.testRunner
+    androidTestImplementation test.espresso
+}

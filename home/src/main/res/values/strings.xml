@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="order_by">Order By</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="phone">phone</string>
+    <string name="email">email</string>
+    <string name="name">name</string>
+    <string name="created_date">created Date</string>
+</resources>

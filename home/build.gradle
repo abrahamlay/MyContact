@@ -1,0 +1,13 @@
+apply {
+    from("../buildsystem/common-dependencies.gradle")
+}
+
+android{
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    api project(':domain')
+}

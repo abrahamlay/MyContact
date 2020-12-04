@@ -1,0 +1,109 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+def cprops = new Properties()
+cprops.load(new FileInputStream(file('config.properties')))
+def config = new ConfigSlurper().parse(cprops)
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "env"
+    productFlavors {
+        development {
+            dimension "env"
+            applicationId "com.abrahamlay.mycontact.dev"
+            buildConfigField("String", "API_BASE_URL", config.env.dev.baseurl)
+            buildConfigField("String", "ACCESS_TOKEN", config.env.access.token)
+        }
+        staging {
+            dimension "env"
+            applicationId "com.abrahamlay.mycontact.dev"
+            buildConfigField("String", "API_BASE_URL", config.env.staging.baseurl)
+            buildConfigField("String", "ACCESS_TOKEN", config.env.access.token)
+        }
+        production {
+            dimension "env"
+            applicationId 'com.abrahamlay.mycontact'
+            buildConfigField("String", "API_BASE_URL", config.env.prod.baseurl)
+            buildConfigField("String", "ACCESS_TOKEN", config.env.access.token)
+        }
+    }
+}
+
+dependencies {
+    implementation kotlinStdLib
+    implementation project(':core')
+    implementation project(':data')
+    implementation project(':domain')
+    implementation project(':home')
+
+
+    //androidx
+    implementation support.appcompat
+    implementation support.constraint
+    implementation support.recyclerview
+    implementation support.core
+    implementation support.design
+
+    //network
+    implementation libs.retrofit
+    implementation libs.okhttp
+    implementation libs.gson
+
+    //rxjava
+    implementation libs.rxjava
+
+    //image processor
+    implementation libs.glide
+
+    //dependency injection
+    implementation support.koin
+    implementation support.koinScope
+    implementation support.koinViewmodel
+
+    //navigation
+    implementation support.navigationUi
+    implementation support.navigationFragment
+    implementation support.lifecycleVMSavedState
+    implementation support.coroutinesCore
+    implementation support.core
+
+    testImplementation test.jUnit
+    androidTestImplementation test.testRunner
+    androidTestImplementation test.espresso
+}
